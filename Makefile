@@ -1,6 +1,5 @@
 MODULES      = drive filesystem manager
-TEST_MODULES = application \
-               test
+TEST_MODULES = application test
 OBJECTS      = $(foreach MODULE, ${MODULES}, build/${MODULE}.o)
 TEST_OBJECTS = $(foreach MODULE, ${TEST_MODULES}, build/${MODULE}.o)
 TEST_EXEC    = test
