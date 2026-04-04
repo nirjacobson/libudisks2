@@ -27,8 +27,8 @@ ${LIB_FILE}: ${OBJECTS}
 format:
 	astyle -rnNCS *.{h,cc}
 
-build/%.o : build/ src/%.cc
-	g++ -c $(word 2, $^) -fpic -o $@ ${CFLAGS}
+build/%.o : src/%.cc build/
+	g++ -c $< -fpic -o $@ ${CFLAGS}
 
 build/:
 	mkdir -p build
