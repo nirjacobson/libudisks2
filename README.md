@@ -1,5 +1,5 @@
-# libbluez
-A C++ interface to Bluez.
+# libudisks2
+A C++ interface to UDisks2.
 
 ## Install dependencies
 ```
