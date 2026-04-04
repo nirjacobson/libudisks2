@@ -26,7 +26,7 @@ namespace UDisks2 {
             };
 
             std::string _path;
-            Glib::RefPtr<Gio::DBus::Proxy> _driveProxy;
+            Glib::RefPtr<Gio::DBus::Proxy> _drive_proxy;
     };
 }
 

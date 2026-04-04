@@ -9,11 +9,11 @@ UDisks2::Manager::Manager() {
         UDisks2::Path,
         Freedesktop::ObjectManager::Interface,
     [&](Glib::RefPtr<Gio::AsyncResult>& result) {
-        _objectManagerProxy = Gio::DBus::Proxy::create_for_bus_finish(result);
+        _object_manager_proxy = Gio::DBus::Proxy::create_for_bus_finish(result);
 
         init();
 
-        _objectManagerProxy->signal_signal().connect(sigc::mem_fun(*this, &UDisks2::Manager::on_signal));
+        _object_manager_proxy->signal_signal().connect(sigc::mem_fun(*this, &UDisks2::Manager::on_signal));
     });
 }
 
@@ -71,7 +71,7 @@ void UDisks2::Manager::on_interfaces_added(const Glib::VariantContainerBase& par
             proxy->get_cached_property(device, "Device");
             proxy->get_cached_property(drive, "Drive");
 
-            _deviceToDriveMap.insert(std::make_pair(device.get(), drive.get()));
+            _device_to_drive_map.insert(std::make_pair(device.get(), drive.get()));
         } else if (iface.get() != UDisks2::Filesystem::Interface) {
             continue;
         }
@@ -105,7 +105,7 @@ void UDisks2::Manager::on_interfaces_removed(const Glib::VariantContainerBase& p
 }
 #include <iostream>
 void UDisks2::Manager::init() {
-    const Glib::VariantContainerBase result = _objectManagerProxy->call_sync(Freedesktop::ObjectManager::Methods::GetManagedObjects);
+    const Glib::VariantContainerBase result = _object_manager_proxy->call_sync(Freedesktop::ObjectManager::Methods::GetManagedObjects);
     Glib::VariantContainerBase objects;
     result.get_child(objects);
 
@@ -143,7 +143,7 @@ void UDisks2::Manager::init() {
                 proxy->get_cached_property(device, "Device");
                 proxy->get_cached_property(drive, "Drive");
 
-                _deviceToDriveMap.insert(std::make_pair(device.get(), drive.get()));
+                _device_to_drive_map.insert(std::make_pair(device.get(), drive.get()));
             } else if (iface.get() != UDisks2::Filesystem::Interface) {
                 continue;
             }
@@ -177,7 +177,7 @@ UDisks2::Drive* UDisks2::Manager::drive_for_filesystem(const UDisks2::Filesystem
     if (std::regex_search(fs->path(), matches, FSPathPattern)) {
         const std::string device = matches[1];
 
-        return new Drive(_deviceToDriveMap.at("/dev/"+device));
+        return new Drive(_device_to_drive_map.at("/dev/"+device));
     }
 
     return nullptr;

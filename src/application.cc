@@ -1,14 +1,14 @@
 #include "application.h"
 
 Application::Application()
-    : _mainLoop(Glib::MainLoop::create()) {
+    : _main_loop(Glib::MainLoop::create()) {
 }
 
 void Application::run() {
     _udisks2.signal_drive_added().connect(sigc::mem_fun(*this, &Application::on_drive_added));
     _udisks2.signal_drive_removed().connect(sigc::mem_fun(*this, &Application::on_drive_removed));
 
-    _mainLoop->run();
+    _main_loop->run();
 }
 
 void Application::on_drive_added(const std::string& path) {

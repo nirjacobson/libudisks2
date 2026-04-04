@@ -4,48 +4,48 @@ const std::string UDisks2::Filesystem::Interface = "org.freedesktop.UDisks2.File
 
 UDisks2::Filesystem::Filesystem(const std::string& path)
     : _path(path) {
-    _fsProxy = Gio::DBus::Proxy::create_for_bus_sync (
+    _fs_proxy = Gio::DBus::Proxy::create_for_bus_sync (
                        Gio::DBus::BusType::SYSTEM,
                        UDisks2::BusName,
                        path,
                        UDisks2::Filesystem::Interface
                    );
 
-    _fsProxy->signal_properties_changed().connect(sigc::mem_fun(*this, &UDisks2::Filesystem::on_drive_properties_changed));
+    _fs_proxy->signal_properties_changed().connect(sigc::mem_fun(*this, &UDisks2::Filesystem::on_drive_properties_changed));
 
-    Glib::Variant<std::vector<std::string>> mountPoints;
+    Glib::Variant<std::vector<std::string>> mount_points;
 
-    _fsProxy->get_cached_property(mountPoints, UDisks2::Filesystem::Properties::MountPoints);
+    _fs_proxy->get_cached_property(mount_points, UDisks2::Filesystem::Properties::MountPoints);
 
-    if (!mountPoints.get().empty()) {
-        _mountPoint = mountPoints.get()[0];
+    if (!mount_points.get().empty()) {
+        _mount_point = mount_points.get()[0];
     }
 }
 
 void UDisks2::Filesystem::on_drive_properties_changed(const Gio::DBus::Proxy::MapChangedProperties& changed_properties, const std::vector<Glib::ustring>& invalidated_properties) {
     if (changed_properties.find(UDisks2::Filesystem::Properties::MountPoints) != changed_properties.end()) {
-        Glib::Variant<std::vector<std::string>> mountPointsVariant =
+        Glib::Variant<std::vector<std::string>> mount_points_variant =
             Glib::Variant<std::vector<std::string>>
                 ::cast_dynamic<Glib::Variant<std::vector<std::string>>>
                     (changed_properties
                         .at(UDisks2::Filesystem::Properties::MountPoints));
 
-        std::vector<std::string> mountPoints = mountPointsVariant.get();
+        std::vector<std::string> mount_points = mount_points_variant.get();
 
-        if (!mountPoints.empty()) {
-            if (_mountPoint.empty()) {
-                _mountPoint = mountPoints[0];
-                _sig_mounted.emit(_mountPoint);
+        if (!mount_points.empty()) {
+            if (_mount_point.empty()) {
+                _mount_point = mount_points[0];
+                _sig_mounted.emit(_mount_point);
             } else {
-                if (std::find(mountPoints.begin(), mountPoints.end(), _mountPoint) == mountPoints.end()) {
-                    _mountPoint = mountPoints[0];
+                if (std::find(mount_points.begin(), mount_points.end(), _mount_point) == mount_points.end()) {
+                    _mount_point = mount_points[0];
                     _sig_unmounted.emit();
-                    _sig_mounted.emit(_mountPoint);
+                    _sig_mounted.emit(_mount_point);
                 }
             }
         } else {
-            if (!_mountPoint.empty()) {
-                _mountPoint.clear();
+            if (!_mount_point.empty()) {
+                _mount_point.clear();
                 _sig_unmounted.emit();
             }
         }
@@ -65,12 +65,12 @@ const std::string& UDisks2::Filesystem::path() const {
     return _path;
 }
 
-const std::string& UDisks2::Filesystem::mountPoint() const {
-    return _mountPoint;
+const std::string& UDisks2::Filesystem::mount_point() const {
+    return _mount_point;
 }
 
 void UDisks2::Filesystem::unmount() {
     Glib::Variant<std::map<Glib::ustring, Glib::VariantBase>> options = Glib::Variant<std::map<Glib::ustring, Glib::VariantBase>>::create({});
     Glib::VariantContainerBase args = Glib::VariantContainerBase::create_tuple(options);
-    _fsProxy->call_sync(UDisks2::Filesystem::Methods::Unmount, args);
+    _fs_proxy->call_sync(UDisks2::Filesystem::Methods::Unmount, args);
 }

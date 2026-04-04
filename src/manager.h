@@ -45,14 +45,14 @@ namespace UDisks2 {
             sig_drive _sig_fs_added;
             sig_drive _sig_fs_removed;
 
-            Glib::RefPtr<Gio::DBus::Proxy> _objectManagerProxy;
+            Glib::RefPtr<Gio::DBus::Proxy> _object_manager_proxy;
 
             Glib::Dispatcher _dispatcher;
 
             std::vector<std::string> _drives;
             std::vector<std::string> _filesystems;
 
-            std::map<std::string, std::string> _deviceToDriveMap;
+            std::map<std::string, std::string> _device_to_drive_map;
 
             static const std::regex FSPathPattern;
 

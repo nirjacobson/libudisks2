@@ -23,7 +23,7 @@ namespace UDisks2 {
             sig_unmounted signal_unmounted();
 
             const std::string& path() const;
-            const std::string& mountPoint() const;
+            const std::string& mount_point() const;
 
             void unmount();
             
@@ -32,8 +32,8 @@ namespace UDisks2 {
             class Properties;
 
             std::string _path;
-            Glib::RefPtr<Gio::DBus::Proxy> _fsProxy;
-            std::string _mountPoint;
+            Glib::RefPtr<Gio::DBus::Proxy> _fs_proxy;
+            std::string _mount_point;
 
             sig_mounted _sig_mounted;
             sig_unmounted _sig_unmounted;
