@@ -5,11 +5,11 @@ const std::string UDisks2::Filesystem::Interface = "org.freedesktop.UDisks2.File
 UDisks2::Filesystem::Filesystem(const std::string& path)
     : _path(path) {
     _fs_proxy = Gio::DBus::Proxy::create_for_bus_sync (
-                       Gio::DBus::BusType::SYSTEM,
-                       UDisks2::BusName,
-                       path,
-                       UDisks2::Filesystem::Interface
-                   );
+                    Gio::DBus::BusType::SYSTEM,
+                    UDisks2::BusName,
+                    path,
+                    UDisks2::Filesystem::Interface
+                );
 
     _fs_proxy->signal_properties_changed().connect(sigc::mem_fun(*this, &UDisks2::Filesystem::on_drive_properties_changed));
 
@@ -26,9 +26,9 @@ void UDisks2::Filesystem::on_drive_properties_changed(const Gio::DBus::Proxy::Ma
     if (changed_properties.find(UDisks2::Filesystem::Properties::MountPoints) != changed_properties.end()) {
         Glib::Variant<std::vector<std::string>> mount_points_variant =
             Glib::Variant<std::vector<std::string>>
-                ::cast_dynamic<Glib::Variant<std::vector<std::string>>>
-                    (changed_properties
-                        .at(UDisks2::Filesystem::Properties::MountPoints));
+            ::cast_dynamic<Glib::Variant<std::vector<std::string>>>
+            (changed_properties
+             .at(UDisks2::Filesystem::Properties::MountPoints));
 
         std::vector<std::string> mount_points = mount_points_variant.get();
 
@@ -36,14 +36,16 @@ void UDisks2::Filesystem::on_drive_properties_changed(const Gio::DBus::Proxy::Ma
             if (_mount_point.empty()) {
                 _mount_point = mount_points[0];
                 _sig_mounted.emit(_mount_point);
-            } else {
+            }
+            else {
                 if (std::find(mount_points.begin(), mount_points.end(), _mount_point) == mount_points.end()) {
                     _mount_point = mount_points[0];
                     _sig_unmounted.emit();
                     _sig_mounted.emit(_mount_point);
                 }
             }
-        } else {
+        }
+        else {
             if (!_mount_point.empty()) {
                 _mount_point.clear();
                 _sig_unmounted.emit();

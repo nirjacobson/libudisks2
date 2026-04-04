@@ -56,16 +56,16 @@ void UDisks2::Manager::on_interfaces_added(const Glib::VariantContainerBase& par
         ifaceDictEntry.get_child(iface, 0);
         ifaceDictEntry.get_child(properties, 1);
 
-        
+
         if (iface.get() == UDisks2::Drive::Interface) {
             _drives.push_back(path.get());
         } else if (iface.get() == UDisks2::Block::Interface) {
             Glib::RefPtr<Gio::DBus::Proxy> proxy = Gio::DBus::Proxy::create_for_bus_sync (
-                            Gio::DBus::BusType::SYSTEM,
-                            UDisks2::BusName,
-                            path.get(),
-                            UDisks2::Block::Interface
-                        );
+                    Gio::DBus::BusType::SYSTEM,
+                    UDisks2::BusName,
+                    path.get(),
+                    UDisks2::Block::Interface
+                                                   );
             Glib::Variant<std::string> device;
             Glib::Variant<std::string> drive;
             proxy->get_cached_property(device, "Device");
@@ -133,11 +133,11 @@ void UDisks2::Manager::init() {
                 _drives.push_back(path.get());
             } else if (iface.get() == UDisks2::Block::Interface) {
                 Glib::RefPtr<Gio::DBus::Proxy> proxy = Gio::DBus::Proxy::create_for_bus_sync (
-                                Gio::DBus::BusType::SYSTEM,
-                                UDisks2::BusName,
-                                path.get(),
-                                UDisks2::Block::Interface
-                            );
+                        Gio::DBus::BusType::SYSTEM,
+                        UDisks2::BusName,
+                        path.get(),
+                        UDisks2::Block::Interface
+                                                       );
                 Glib::Variant<std::string> device;
                 Glib::Variant<std::string> drive;
                 proxy->get_cached_property(device, "Device");

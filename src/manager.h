@@ -64,7 +64,7 @@ namespace UDisks2 {
             void on_signal(const Glib::ustring& sender_name, const Glib::ustring& signal_name, const Glib::VariantContainerBase& parameters);
             void on_interfaces_added(const Glib::VariantContainerBase& parameters);
             void on_interfaces_removed(const Glib::VariantContainerBase& parameters);
-            
+
             template <typename T>
             static void get_property_value(const Glib::VariantContainerBase& properties, const std::string& propName, T& propValue);
     };

@@ -17,9 +17,9 @@ namespace UDisks2 {
             Drive(const std::string& path);
 
             void eject();
-            
+
         private:
-    
+
             class Methods {
                 public:
                     inline static const std::string Eject = "Eject";

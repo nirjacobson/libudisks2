@@ -13,7 +13,7 @@ namespace UDisks2 {
     class Filesystem {
         public:
             static const std::string Interface;
-            
+
             typedef sigc::signal<void(std::string path)> sig_mounted;
             typedef sigc::signal<void(void)> sig_unmounted;
 
@@ -26,7 +26,7 @@ namespace UDisks2 {
             const std::string& mount_point() const;
 
             void unmount();
-            
+
         private:
             class Methods;
             class Properties;
