@@ -1,6 +1,6 @@
 #include "manager.h"
 
-const std::regex UDisks2::Manager::FSPathPattern("^.+/(sd[b-z]\\d+)$");
+const std::regex UDisks2::Manager::FSPathPattern("^.+/(sd[a-z]\\d+)$");
 
 UDisks2::Manager::Manager() {
     Gio::DBus::Proxy::create_for_bus(
