@@ -11,7 +11,13 @@ LIB_FILE     = lib${LIB}.so
 LIB_DIR      = /usr/lib64
 INCLUDE_DIR  = /usr/include/${LIB}
 
+.PHONY: docs
+
 all: build/ ${LIB_FILE}
+
+docs:
+	rm -rf docs/
+	doxygen doxygen.txt
 
 install: ${LIB_FILE}
 	install -D $< -t ${DESTDIR}${LIB_DIR}

@@ -1,3 +1,9 @@
+/**
+ * @file manager.cc
+ * @author Nir Jacobson
+ * @date 2026-04-07
+ */
+
 #include "manager.h"
 
 const std::regex UDisks2::Manager::FSPathPattern("^.+/(sd[a-z]\\d+)$");
@@ -71,7 +77,7 @@ void UDisks2::Manager::on_interfaces_added(const Glib::VariantContainerBase& par
             proxy->get_cached_property(device, "Device");
             proxy->get_cached_property(drive, "Drive");
 
-            _device_to_drive_map.insert(std::make_pair(device.get(), drive.get()));
+            _fs_to_drive_map.insert(std::make_pair(device.get(), drive.get()));
         } else if (iface.get() != UDisks2::Filesystem::Interface) {
             continue;
         }
@@ -143,7 +149,7 @@ void UDisks2::Manager::init() {
                 proxy->get_cached_property(device, "Device");
                 proxy->get_cached_property(drive, "Drive");
 
-                _device_to_drive_map.insert(std::make_pair(device.get(), drive.get()));
+                _fs_to_drive_map.insert(std::make_pair(device.get(), drive.get()));
             } else if (iface.get() != UDisks2::Filesystem::Interface) {
                 continue;
             }
@@ -177,7 +183,7 @@ UDisks2::Drive* UDisks2::Manager::drive_for_filesystem(const UDisks2::Filesystem
     if (std::regex_search(fs->path(), matches, FSPathPattern)) {
         const std::string device = matches[1];
 
-        return new Drive(_device_to_drive_map.at("/dev/"+device));
+        return new Drive(_fs_to_drive_map.at("/dev/"+device));
     }
 
     return nullptr;

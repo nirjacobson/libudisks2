@@ -1,3 +1,9 @@
+/**
+ * @file application.h
+ * @author Nir Jacobson
+ * @date 2026-04-06
+ */
+
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
@@ -10,6 +16,8 @@
 
 #include "manager.h"
 
+/// @brief An included test application.
+/// Use it to test the proper configuration of your system.
 class Application {
 
     public:
@@ -22,7 +30,10 @@ class Application {
 
         UDisks2::Manager _udisks2;
 
+        /// @brief Called when a new drive is registered.
         void on_drive_added(const std::string& path);
+
+        /// @brief Called when a drive is removed.
         void on_drive_removed(const std::string& path);
 };
 

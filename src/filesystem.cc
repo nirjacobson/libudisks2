@@ -11,7 +11,7 @@ UDisks2::Filesystem::Filesystem(const std::string& path)
                     UDisks2::Filesystem::Interface
                 );
 
-    _fs_proxy->signal_properties_changed().connect(sigc::mem_fun(*this, &UDisks2::Filesystem::on_drive_properties_changed));
+    _fs_proxy->signal_properties_changed().connect(sigc::mem_fun(*this, &UDisks2::Filesystem::on_fs_properties_changed));
 
     Glib::Variant<std::vector<std::string>> mount_points;
 
@@ -22,7 +22,12 @@ UDisks2::Filesystem::Filesystem(const std::string& path)
     }
 }
 
-void UDisks2::Filesystem::on_drive_properties_changed(const Gio::DBus::Proxy::MapChangedProperties& changed_properties, const std::vector<Glib::ustring>& invalidated_properties) {
+/**
+ * @details If the MountPoints property changes on the object, Filesystem::_mount_point is compared
+ * against the MountPoints list and is updated if necessary. If updated, Filesystem::_sig_mounted
+ * or Filesystem::_sig_unmounted will be emitted as necessary.
+ */
+void UDisks2::Filesystem::on_fs_properties_changed(const Gio::DBus::Proxy::MapChangedProperties& changed_properties, const std::vector<Glib::ustring>& invalidated_properties) {
     if (changed_properties.find(UDisks2::Filesystem::Properties::MountPoints) != changed_properties.end()) {
         Glib::Variant<std::vector<std::string>> mount_points_variant =
             Glib::Variant<std::vector<std::string>>
