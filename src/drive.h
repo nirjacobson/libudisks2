@@ -38,13 +38,13 @@ namespace UDisks2 {
             class Methods {
                 public:
                     /// @brief Eject method name.
-                    inline static const std::string Eject = "Eject";
+                    inline static const std::string Eject = "Eject";    ///< Eject method name.
             };
 
-            /// @brief The D-Bus path of the Drive
+            /// @brief The D-Bus path of the Drive.
             std::string _path;
 
-            /// @brief D-Bus proxy for the Drive object using Drive interface
+            /// @brief D-Bus proxy for the Drive object using Drive interface.
             Glib::RefPtr<Gio::DBus::Proxy> _drive_proxy;
     };
 }

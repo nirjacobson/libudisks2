@@ -32,10 +32,11 @@ namespace UDisks2 {
     /// @brief UDisks2 objects (drives and filesystem) manager proxy
     class Manager {
         public:
+            /// @brief Manager constructor.
             Manager();
 
-            typedef sigc::signal<void(std::string)> sig_drive;
-            typedef sigc::signal<void(void)> sig_init;
+            typedef sigc::signal<void(std::string)> sig_drive;  ///< "Filesystem added/removed" signal type.
+            typedef sigc::signal<void(void)> sig_init;          ///< "Initialized" signal type.
 
             /// @brief Returns the D-Bus paths of registered Drives
             /// @return a list of D-Bus paths
@@ -65,49 +66,49 @@ namespace UDisks2 {
             sig_drive signal_fs_removed();  ///< Getter for ::_signal_fs_removed.
 
         private:
-            sig_init  _sig_init;       ///< Emitted when the manager has initialized its list of preregistered drives and filesystems
-            sig_drive _sig_fs_added;   ///< Emitted when a new filesystem appears
-            sig_drive _sig_fs_removed; ///< Emitted when a filesystem disappears
+            sig_init  _signal_init;       ///< Emitted when the manager has initialized its list of preregistered drives and filesystems.
+            sig_drive _signal_fs_added;   ///< Emitted when a new filesystem appears.
+            sig_drive _signal_fs_removed; ///< Emitted when a filesystem disappears.
 
-            Glib::RefPtr<Gio::DBus::Proxy> _object_manager_proxy; ///< D-Bus proxy for the UDisks2 object using the manager interface
+            Glib::RefPtr<Gio::DBus::Proxy> _object_manager_proxy; ///< D-Bus proxy for the UDisks2 object using the manager interface.
 
-            std::vector<std::string> _drives;      ///< D-Bus object paths of registered drives
-            std::vector<std::string> _filesystems; ///< D-Bus object paths of registered filesystems
+            std::vector<std::string> _drives;      ///< D-Bus object paths of registered drives.
+            std::vector<std::string> _filesystems; ///< D-Bus object paths of registered filesystems.
 
-            /// @brief Filesystem D-Bus paths mapped to D-Bus paths of registered drives
+            /// @brief Filesystem D-Bus paths mapped to D-Bus paths of registered drives.
             std::map<std::string, std::string> _fs_to_drive_map;
 
-            /// @brief A regular expression capturing the D-Bus path of a filesystem
+            /// @brief A regular expression capturing the D-Bus path of a filesystem.
             static const std::regex FSPathPattern;
 
-            /// @brief Initialize  internal lists of preregistered drives' and filesystems' information
+            /// @brief Initialize  internal lists of preregistered drives' and filesystems' information.
             void init();
 
-            /// @brief Called when the poller thread discovers a disc has been inserted
+            /// @brief Called when the poller thread discovers a disc has been inserted.
             void on_notification_from_poller();
 
-            /// @brief Called when the disc drive has ejected
+            /// @brief Called when the disc drive has ejected.
             void on_cddrive_eject();
 
-            /// @brief Called when the object manager interface emits a signal
-            /// @param [in] signal_name The signal emitted
-            /// @param [in] parameters  The signal arguments
-            /// @see Freedesktop::ObjectManager::Signals
+            /// @brief Called when the object manager interface emits a signal.
+            /// @param [in] signal_name The signal emitted.
+            /// @param [in] parameters  The signal arguments.
+            /// @see Freedesktop::ObjectManager::Signals.
             void on_signal(const Glib::ustring& sender_name, const Glib::ustring& signal_name, const Glib::VariantContainerBase& parameters);
             
-            /// @brief A delegate called when the object manager emits that new drives or filesystems have been discovered
-            /// @param [in] parameters The signal arguments
+            /// @brief A delegate called when the object manager emits that new drives or filesystems have been discovered.
+            /// @param [in] parameters The signal arguments.
             void on_interfaces_added(const Glib::VariantContainerBase& parameters);
 
-            /// @brief A delegate called when the object manager emits that drives or filesystems have been removed
-            /// @param [in] parameters The signal arguments
+            /// @brief A delegate called when the object manager emits that drives or filesystems have been removed.
+            /// @param [in] parameters The signal arguments.
             void on_interfaces_removed(const Glib::VariantContainerBase& parameters);
 
-            /// @brief A convenience method to retrieve a property from a Glib::VariantContainerBase with a given type
-            /// @tparam T The data type of the property
-            /// @param [in]  properties the set of properties
-            /// @param [in]  propName   the property to retrieve 
-            /// @param [out] propValue  the property value
+            /// @brief A convenience method to retrieve a property from a Glib::VariantContainerBase with a given type.
+            /// @tparam T The data type of the property.
+            /// @param [in]  properties the set of properties.
+            /// @param [in]  propName   the property to retrieve .
+            /// @param [out] propValue  the property value.
             template <typename T>
             static void get_property_value(const Glib::VariantContainerBase& properties, const std::string& propName, T& propValue);
     };

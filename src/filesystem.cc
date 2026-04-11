@@ -30,8 +30,8 @@ UDisks2::Filesystem::Filesystem(const std::string& path)
 
 /**
  * @details If the MountPoints property changes on the object, Filesystem::_mount_point is compared
- * against the MountPoints list and is updated if necessary. If updated, Filesystem::_sig_mounted
- * or Filesystem::_sig_unmounted will be emitted as necessary.
+ * against the MountPoints list and is updated if necessary. If updated, Filesystem::_signal_mounted
+ * or Filesystem::_signal_unmounted will be emitted as necessary.
  */
 void UDisks2::Filesystem::on_fs_properties_changed(const Gio::DBus::Proxy::MapChangedProperties& changed_properties, const std::vector<Glib::ustring>& invalidated_properties) {
     if (changed_properties.find(UDisks2::Filesystem::Properties::MountPoints) != changed_properties.end()) {
@@ -46,20 +46,20 @@ void UDisks2::Filesystem::on_fs_properties_changed(const Gio::DBus::Proxy::MapCh
         if (!mount_points.empty()) {
             if (_mount_point.empty()) {
                 _mount_point = mount_points[0];
-                _sig_mounted.emit(_mount_point);
+                _signal_mounted.emit(_mount_point);
             }
             else {
                 if (std::find(mount_points.begin(), mount_points.end(), _mount_point) == mount_points.end()) {
                     _mount_point = mount_points[0];
-                    _sig_unmounted.emit();
-                    _sig_mounted.emit(_mount_point);
+                    _signal_unmounted.emit();
+                    _signal_mounted.emit(_mount_point);
                 }
             }
         }
         else {
             if (!_mount_point.empty()) {
                 _mount_point.clear();
-                _sig_unmounted.emit();
+                _signal_unmounted.emit();
             }
         }
     }
@@ -67,11 +67,11 @@ void UDisks2::Filesystem::on_fs_properties_changed(const Gio::DBus::Proxy::MapCh
 
 
 UDisks2::Filesystem::sig_mounted UDisks2::Filesystem::signal_mounted() {
-    return _sig_mounted;
+    return _signal_mounted;
 }
 
 UDisks2::Filesystem::sig_unmounted UDisks2::Filesystem::signal_unmounted() {
-    return _sig_unmounted;
+    return _signal_unmounted;
 }
 
 const std::string& UDisks2::Filesystem::path() const {

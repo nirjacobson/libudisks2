@@ -26,8 +26,8 @@ namespace UDisks2 {
             typedef sigc::signal<void(std::string path)> sig_mounted;   ///< "Mounted" signal type.
             typedef sigc::signal<void(void)> sig_unmounted;             ///< "Unmounted" signal type.
 
-            /// @brief Filesystem constructor
-            /// @param [in] path The D-Bus path of the Filesystem
+            /// @brief Filesystem constructor.
+            /// @param [in] path The D-Bus path of the Filesystem.
             Filesystem(const std::string& path);
 
             sig_mounted signal_mounted();                               ///< Getter for ::_signal_mounted.
@@ -46,26 +46,26 @@ namespace UDisks2 {
             class Properties;
 
             std::string _path;                        ///< D-Bus path to the Filesystem.
-            Glib::RefPtr<Gio::DBus::Proxy> _fs_proxy; ///< D-Bus proxy for the Filesystem object using filesystem interface
-            std::string _mount_point;                 ///< Most recently recorded mount point
+            Glib::RefPtr<Gio::DBus::Proxy> _fs_proxy; ///< D-Bus proxy for the Filesystem object using filesystem interface.
+            std::string _mount_point;                 ///< Most recently recorded mount point.
 
-            sig_mounted _sig_mounted;                 ///< Emitted when the filesystem is mounted
-            sig_unmounted _sig_unmounted;             ///< Emitted when the filesystem is unmounted
+            sig_mounted _signal_mounted;                 ///< Emitted when the filesystem is mounted.
+            sig_unmounted _signal_unmounted;             ///< Emitted when the filesystem is unmounted.
 
-            /// @brief Called when properties change on the Filesystem object (mount point, etc.)
-            /// @param [in] changed_properties     properties that have changed
-            /// @param [in] invalidated_properties properties that are no longer valid
+            /// @brief Called when properties change on the Filesystem object (mount point, etc.).
+            /// @param [in] changed_properties     properties that have changed.
+            /// @param [in] invalidated_properties properties that are no longer valid.
             void on_fs_properties_changed(const Gio::DBus::Proxy::MapChangedProperties& changed_properties, const std::vector<Glib::ustring>& invalidated_properties);
 
     };
 
-    /// @brief D-Bus method names supported by the D-Bus Filesystem interface
+    /// @brief D-Bus method names supported by the D-Bus Filesystem interface.
     class Filesystem::Methods {
         public:
             inline static const std::string Unmount = "Unmount";                    ///< Unmount method name.
     };
 
-    /// @brief D-Bus property names supported by the D-Bus Filesystem interface
+    /// @brief D-Bus property names supported by the D-Bus Filesystem interface.
     class Filesystem::Properties {
         public:
             inline static const std::string MountPoints = "MountPoints";            ///< MountPoints property name.

@@ -24,15 +24,15 @@ UDisks2::Manager::Manager() {
 }
 
 UDisks2::Manager::sig_init UDisks2::Manager::signal_init() {
-    return _sig_init;
+    return _signal_init;
 }
 
 UDisks2::Manager::sig_drive UDisks2::Manager::signal_fs_added() {
-    return _sig_fs_added;
+    return _signal_fs_added;
 }
 
 UDisks2::Manager::sig_drive UDisks2::Manager::signal_fs_removed() {
-    return _sig_fs_removed;
+    return _signal_fs_removed;
 }
 
 void UDisks2::Manager::on_signal(const Glib::ustring& sender_name, const Glib::ustring& signal_name, const Glib::VariantContainerBase& parameters) {
@@ -84,7 +84,7 @@ void UDisks2::Manager::on_interfaces_added(const Glib::VariantContainerBase& par
 
         _filesystems.push_back(path.get());
 
-        _sig_fs_added.emit(path.get());
+        _signal_fs_added.emit(path.get());
     }
 }
 
@@ -104,7 +104,7 @@ void UDisks2::Manager::on_interfaces_removed(const Glib::VariantContainerBase& p
 
         _filesystems.erase(std::remove(_filesystems.begin(), _filesystems.end(), path.get()), _filesystems.end());
 
-        _sig_fs_removed.emit(path.get());
+        _signal_fs_removed.emit(path.get());
 
         return;
     }
@@ -158,7 +158,7 @@ void UDisks2::Manager::init() {
         }
     }
 
-    _sig_init.emit();
+    _signal_init.emit();
 }
 
 std::vector<std::string> UDisks2::Manager::drives() const {
