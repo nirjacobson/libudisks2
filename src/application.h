@@ -21,14 +21,16 @@
 class Application {
 
     public:
+        /// @brief Application constructor.
         Application();
 
+        /// @brief Runs the Application.
         void run();
 
     private:
-        Glib::RefPtr<Glib::MainLoop> _main_loop;
+        Glib::RefPtr<Glib::MainLoop> _main_loop;            ///< Main loop.
 
-        UDisks2::Manager _udisks2;
+        UDisks2::Manager _udisks2;                          ///< UDisks2.
 
         /// @brief Called when a new drive is registered.
         void on_drive_added(const std::string& path);

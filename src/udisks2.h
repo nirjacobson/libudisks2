@@ -11,11 +11,15 @@
 
 /// @brief UDisks2 D-Bus information
 namespace UDisks2 {
+    /// @brief D-Bus bus name.
     inline const std::string BusName    = "org.freedesktop.UDisks2";
+
+    /// @brief D-Bus path.
     inline const std::string Path       = "/org/freedesktop/UDisks2";
 
     /// @brief UDisks2 Block D-Bus information
     namespace Block {
+        /// @brief UDisks2 Block D-Bus interface name.
         inline const std::string Interface = "org.freedesktop.UDisks2.Block";
     }
 }

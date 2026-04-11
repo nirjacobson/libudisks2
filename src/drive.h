@@ -20,6 +20,7 @@ namespace UDisks2 {
     /// @brief Drive proxy
     class Drive {
         public:
+            /// @brief D-Bus interface name for UDisks2 Drive.
             static const std::string Interface;
 
             /// @brief Drive constructor
@@ -36,6 +37,7 @@ namespace UDisks2 {
             /// @brief D-Bus method names supported by the D-Bus Drive interface
             class Methods {
                 public:
+                    /// @brief Eject method name.
                     inline static const std::string Eject = "Eject";
             };
 

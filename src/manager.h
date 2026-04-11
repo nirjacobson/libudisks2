@@ -60,9 +60,9 @@ namespace UDisks2 {
             /// @return a Drive proxy
             UDisks2::Drive* drive_for_filesystem(const UDisks2::Filesystem* fs) const;
 
-            sig_init  signal_init();
-            sig_drive signal_drive_added();
-            sig_drive signal_drive_removed();
+            sig_init  signal_init();        ///< Getter for ::_signal_init.
+            sig_drive signal_fs_added();    ///< Getter for ::_signal_fs_added.
+            sig_drive signal_fs_removed();  ///< Getter for ::_signal_fs_removed.
 
         private:
             sig_init  _sig_init;       ///< Emitted when the manager has initialized its list of preregistered drives and filesystems

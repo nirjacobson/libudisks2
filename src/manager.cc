@@ -27,11 +27,11 @@ UDisks2::Manager::sig_init UDisks2::Manager::signal_init() {
     return _sig_init;
 }
 
-UDisks2::Manager::sig_drive UDisks2::Manager::signal_drive_added() {
+UDisks2::Manager::sig_drive UDisks2::Manager::signal_fs_added() {
     return _sig_fs_added;
 }
 
-UDisks2::Manager::sig_drive UDisks2::Manager::signal_drive_removed() {
+UDisks2::Manager::sig_drive UDisks2::Manager::signal_fs_removed() {
     return _sig_fs_removed;
 }
 

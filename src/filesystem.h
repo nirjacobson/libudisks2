@@ -20,20 +20,21 @@ namespace UDisks2 {
     /// @brief Filesystem proxy
     class Filesystem {
         public:
+            /// @brief D-Bus interface name for UDisks2 Filesystem.
             static const std::string Interface;
 
-            typedef sigc::signal<void(std::string path)> sig_mounted;
-            typedef sigc::signal<void(void)> sig_unmounted;
+            typedef sigc::signal<void(std::string path)> sig_mounted;   ///< "Mounted" signal type.
+            typedef sigc::signal<void(void)> sig_unmounted;             ///< "Unmounted" signal type.
 
             /// @brief Filesystem constructor
             /// @param [in] path The D-Bus path of the Filesystem
             Filesystem(const std::string& path);
 
-            sig_mounted signal_mounted();
-            sig_unmounted signal_unmounted();
+            sig_mounted signal_mounted();                               ///< Getter for ::_signal_mounted.
+            sig_unmounted signal_unmounted();                           ///< Getter for ::_signal_unmounted.
 
-            const std::string& path() const;
-            const std::string& mount_point() const;
+            const std::string& path() const;                            ///< Getter for ::_path.
+            const std::string& mount_point() const;                     ///< Getter for ::_mount_point.
 
             /// @brief Unmount the Filesystem.
             /// The filesystem must be unmounted before its drive is ejected.
@@ -61,13 +62,13 @@ namespace UDisks2 {
     /// @brief D-Bus method names supported by the D-Bus Filesystem interface
     class Filesystem::Methods {
         public:
-            inline static const std::string Unmount = "Unmount";
+            inline static const std::string Unmount = "Unmount";                    ///< Unmount method name.
     };
 
     /// @brief D-Bus property names supported by the D-Bus Filesystem interface
     class Filesystem::Properties {
         public:
-            inline static const std::string MountPoints = "MountPoints";
+            inline static const std::string MountPoints = "MountPoints";            ///< MountPoints property name.
     };
 }
 

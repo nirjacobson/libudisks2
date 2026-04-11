@@ -1,4 +1,10 @@
-#include "filesystem.h"
+/**
+ * @file filesystem.cc
+ * @author Nir Jacobson
+ * @date 2026-04-07
+ */
+
+ #include "filesystem.h"
 
 const std::string UDisks2::Filesystem::Interface = "org.freedesktop.UDisks2.Filesystem";
 
